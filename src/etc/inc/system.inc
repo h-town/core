@@ -1168,7 +1168,7 @@ function system_login_configure($verbose = false)
     exec('/bin/kill -HUP 1');
 }
 
-function reset_factory_defaults($sync = true)
+function reset_defaults_shutdown($sync = true)
 {
     mwexec('/bin/rm -fr /conf/* /var/log/* /root/.history');
     disable_security_checks();
@@ -1181,5 +1181,20 @@ function reset_factory_defaults($sync = true)
         mwexec($shutdown_cmd);
     } else {
         mwexec_bg($shutdown_cmd);
+    }
+}
+function reset_defaults_reboot($sync = true)
+{
+    mwexec('/bin/rm -fr /conf/* /var/log/* /root/.history');
+    disable_security_checks();
+
+    mwexec('/usr/local/sbin/beep.sh stop');
+
+    /* as we go through a special case directly shut down */
+    $reboot_cmd = '/sbin/shutdown -or now';
+    if ($sync) {
+        mwexec($reboot_cmd);
+    } else {
+        mwexec_bg($reboot_cmd);
     }
 }
