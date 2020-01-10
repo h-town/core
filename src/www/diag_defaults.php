@@ -74,16 +74,20 @@ $(document).ready(function() {
       <?php if (count($input_errors)) print_input_errors($input_errors); ?>
       <section class="col-xs-12">
         <form method="post">
-          <p><strong> <?=gettext('If you click "Yes", the system will:')?></strong></p>
+          <p><strong> <?=gettext('By selecting either reset option below, the system will:')?></strong></p>
           <ul>
             <li><?= gettext('Reset to factory defaults') ?></li>
-            <li><?= gettext('LAN IP address will be reset to 192.168.1.1') ?></li>
-            <li><?= gettext('System will be configured as a DHCP server on the default LAN interface') ?></li>
-            <li><?= gettext('WAN interface will be set to obtain an address automatically from a DHCP server') ?></li>
-            <li><?= gettext('Admin user name and password will be reset') ?></li>
-            <li><?= gettext('Shut down after changes are complete') ?></li>
+            <li><?= gettext('Reset LAN IP to 192.168.1.1') ?></li>
+            <li><?= gettext('Activate DHCP server on the default LAN interface') ?></li>
+            <li><?= gettext('Automatically attempt to obtain DHCP address on WAN interface') ?></li>
+            <li><?= gettext('Reset admin username and password (see documentation)') ?></li>
+            <li><?= gettext('Shut down or reboot after changes are complete') ?></li>
           </ul>
-          <p><strong><?=gettext("Are you sure you want to proceed?");?></strong></p>
+          <p><strong><?=gettext("How would you like to proceed?");?></strong></p>
+            
+          <button id="do-halt" class="btn btn-primary">{{ lang._('Yes') }}</button>
+             <a href="/" class="btn btn-default">{{ lang._('Cancel') }}</a>
+
           <div class="btn-group">
             <input type="submit" name="Submit" class="btn btn-primary" value="<?= html_safe(gettext('Yes')) ?>" />
             <a href="/" class="btn btn-default"><?=gettext("No");?></a>
@@ -97,6 +101,7 @@ $(document).ready(function() {
 
 include("foot.inc");
 
+    
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['Submit'])) {
         if (!count($input_errors)) {
